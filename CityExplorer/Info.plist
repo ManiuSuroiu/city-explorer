@@ -32,5 +32,7 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We use your GPS coordinates to find interesting spots around you. Please allow access to your location!</string>
 </dict>
 </plist>

@@ -6,6 +6,8 @@
 //  Copyright © 2017 Maniu Suroiu. All rights reserved.
 //
 import UIKit
+import Foundation
+
 // MARK: - Constants
 
 struct Constants {
@@ -37,7 +39,6 @@ struct Constants {
         static let Query = "sushi" /* Use the textfield.text attribute (let the user insert the query) */
         static let LimitResults = "50"
         static let VenuePhoto = "1"
-        static let APIVersion = "20170602"
         static let ModeResponse = "foursquare"
     }
     

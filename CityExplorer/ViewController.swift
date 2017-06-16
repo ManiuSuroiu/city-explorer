@@ -12,6 +12,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var testButton: UIButton!
     
+    let date = Date()
     
     @IBAction func testAction(_ sender: Any) {
         getVenuesFromFoursquare()
@@ -21,7 +22,29 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
     }
     
+    /* Convenience method to build the URL */
+    private func buildFoursquareURL(_ parameters: [String: AnyObject]) -> URL {
+        
+        var components = URLComponents()
+        components.scheme = Constants.Foursquare.APIScheme
+        components.host = Constants.Foursquare.APIHost
+        components.path = Constants.Foursquare.APIPath
+        components.queryItems = [URLQueryItem]()
+        
+        for (key, value) in parameters {
+            let queryItem = URLQueryItem(name: key, value: "\(value)")
+            components.queryItems!.append(queryItem)
+        }
+        return components.url!
+    }
+    
+    private func parseJSON(json data: Data) -> [String: AnyObject]? {
+        return nil
+    }
+    
     private func getVenuesFromFoursquare() {
+        
+        
         
         let methodParameters = [
             Constants.FoursquareParameterKeys.ClientID: Constants.FoursquareParametersValues.ClientID,
@@ -30,12 +53,12 @@ class ViewController: UIViewController {
             Constants.FoursquareParameterKeys.Query: Constants.FoursquareParametersValues.Query,
             Constants.FoursquareParameterKeys.LimitResults: Constants.FoursquareParametersValues.LimitResults,
             Constants.FoursquareParameterKeys.VenuePhoto: Constants.FoursquareParametersValues.VenuePhoto,
-            Constants.FoursquareParameterKeys.APIVersion: Constants.FoursquareParametersValues.APIVersion,
+            Constants.FoursquareParameterKeys.APIVersion: self.dateToString(date),
             Constants.FoursquareParameterKeys.ModeResponse: Constants.FoursquareParametersValues.ModeResponse
         ]
         
         let session = URLSession.shared
-        let request = URLRequest(url: buildFoursquareURLFromParameters(methodParameters as [String : AnyObject]))
+        let request = URLRequest(url: buildFoursquareURL(methodParameters as [String : AnyObject]))
         
         let task = session.dataTask(with: request) { (data, response, error) in
             
@@ -161,21 +184,21 @@ class ViewController: UIViewController {
         }
         task.resume()
     }
+}
+
+extension ViewController {
     
-    private func buildFoursquareURLFromParameters(_ parameters: [String: AnyObject]) -> URL {
+    func dateToString(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         
-        var components = URLComponents()
-        components.scheme = Constants.Foursquare.APIScheme
-        components.host = Constants.Foursquare.APIHost
-        components.path = Constants.Foursquare.APIPath
-        components.queryItems = [URLQueryItem]()
+        let stringFromDate = formatter.string(from: date)
+        let todaysDate = formatter.date(from: stringFromDate)
         
-        for (key, value) in parameters {
-            let queryItem = URLQueryItem(name: key, value: "\(value)")
-            components.queryItems!.append(queryItem)
-        }
+        formatter.dateFormat = "yyyyMMdd"
+        let dateString = formatter.string(from: todaysDate!)
         
-        return components.url!
+        return dateString
     }
 }
 

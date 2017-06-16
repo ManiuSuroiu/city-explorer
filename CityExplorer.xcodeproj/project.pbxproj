@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B5C02C61EF0561400187202 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B5C02C51EF0561400187202 /* MapKit.framework */; };
+		8B64FECC1EF1C36D005FED02 /* LocationAccessDeniedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B64FECB1EF1C36D005FED02 /* LocationAccessDeniedViewController.swift */; };
+		8BDF33A71EEF276200805BBB /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDF33A61EEF276200805BBB /* MapViewController.swift */; };
 		8BF9DA921EE2C2AF00B57EBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF9DA911EE2C2AF00B57EBE /* AppDelegate.swift */; };
 		8BF9DA941EE2C2AF00B57EBE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF9DA931EE2C2AF00B57EBE /* ViewController.swift */; };
 		8BF9DA971EE2C2AF00B57EBE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BF9DA951EE2C2AF00B57EBE /* Main.storyboard */; };
@@ -16,6 +19,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8B5C02C51EF0561400187202 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		8B64FECB1EF1C36D005FED02 /* LocationAccessDeniedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAccessDeniedViewController.swift; sourceTree = "<group>"; };
+		8BDF33A61EEF276200805BBB /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		8BF9DA8E1EE2C2AF00B57EBE /* CityExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CityExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BF9DA911EE2C2AF00B57EBE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8BF9DA931EE2C2AF00B57EBE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -31,17 +37,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B5C02C61EF0561400187202 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8B5C02C41EF0561400187202 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8B5C02C51EF0561400187202 /* MapKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		8BF9DA851EE2C2AF00B57EBE = {
 			isa = PBXGroup;
 			children = (
 				8BF9DA901EE2C2AF00B57EBE /* CityExplorer */,
 				8BF9DA8F1EE2C2AF00B57EBE /* Products */,
+				8B5C02C41EF0561400187202 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -63,6 +79,8 @@
 				8BF9DA9A1EE2C2AF00B57EBE /* LaunchScreen.storyboard */,
 				8BF9DA9D1EE2C2AF00B57EBE /* Info.plist */,
 				8BF9DAA31EE2C2FD00B57EBE /* Constants.swift */,
+				8BDF33A61EEF276200805BBB /* MapViewController.swift */,
+				8B64FECB1EF1C36D005FED02 /* LocationAccessDeniedViewController.swift */,
 			);
 			path = CityExplorer;
 			sourceTree = "<group>";
@@ -142,7 +160,9 @@
 			files = (
 				8BF9DA941EE2C2AF00B57EBE /* ViewController.swift in Sources */,
 				8BF9DA921EE2C2AF00B57EBE /* AppDelegate.swift in Sources */,
+				8B64FECC1EF1C36D005FED02 /* LocationAccessDeniedViewController.swift in Sources */,
 				8BF9DAA41EE2C2FD00B57EBE /* Constants.swift in Sources */,
+				8BDF33A71EEF276200805BBB /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,6 +326,7 @@
 				8BF9DAA21EE2C2AF00B57EBE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
