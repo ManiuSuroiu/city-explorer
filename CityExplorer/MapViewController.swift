@@ -17,7 +17,7 @@ class MapViewController: UIViewController {
     
     // MARK: - Instance variables
     var locationManager = CLLocationManager()
-    var startLocation: CLLocation?
+    var lastLocation: CLLocation?
     var updatingLocation = false
     
     override func viewDidLoad() {
@@ -37,6 +37,7 @@ class MapViewController: UIViewController {
             perform(#selector(presentLocationAccessDeniedViewController), with: nil, afterDelay: 2)
         case .authorizedWhenInUse, .authorizedAlways:
             startLocationManager()
+            startRegionMonitoring()
         }
     }
     
@@ -53,17 +54,29 @@ class MapViewController: UIViewController {
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startUpdatingLocation()
+            locationManager.allowsBackgroundLocationUpdates = true
         }
     }
     
+    /* monitors when the user had entered a certain region (returned by the Foursquare API) with a predefined radius (in meters). a good opportunity to notify the user about that particular place. the method first checks if the device's hardware supports region monitoring and then instantiates a CLCircularRegion to do the work and also sets notifications to the user when they enter and exit that circular region */
+    func startRegionMonitoring() {
+        if CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
+            
+            let oxfordCircusCoordinates = CLLocation(latitude: 51.5152, longitude: 0.1419)
+            let region = CLCircularRegion(center: oxfordCircusCoordinates.coordinate, radius: 300, identifier: "Home") /* place here (identifier parameter) the name of the places returned by the Foursquare API */
+            region.notifyOnEntry = true
+            region.notifyOnExit = true
+            locationManager.startMonitoring(for: region)
+        }
+    }
     /* once the location manager begins updating user's location, put the latitude and longitude in the format required by the Foursquare API parameter (LatLongCoordinates - Constants.swift). Call this method from the delegate method locationManager(didUpdateLocations:) */
     func formatGPSCoordinates() -> String {
-        if let location = startLocation {
+        if let location = lastLocation {
             let latitudeString = String(format: "%.8f", location.coordinate.latitude)
             let longitudeString = String(format: "%.8f", location.coordinate.longitude)
             return latitudeString + "," + longitudeString
         } else {
-            return "Location coordinates could not be retrieved"
+            return ""
         }
     }
     
@@ -82,7 +95,7 @@ class MapViewController: UIViewController {
 
 extension MapViewController: CLLocationManagerDelegate {
     
-    /* Tells the delegate that the location manager was unable to retrieve a location value. Uses a switch statemnet to look at the most common reasons that caused the error to occur. Each case creates an alert view controller to show the respective error to the user  */
+    /* tells the delegate that the location manager was unable to retrieve a location value. Uses a switch statemnet to look at the most common reasons that caused the error to occur. Each case creates an alert view controller to show the respective error to the user  */
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         
         switch (error as NSError).code {
@@ -112,12 +125,27 @@ extension MapViewController: CLLocationManagerDelegate {
         }
     }
     
-    /* Tells the delegate that new location data is available while storing it in a [ClLocation] array (second parameter) */
+    /* tells the delegate that new location data is available while storing it in a [ClLocation] array (second parameter) */
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let newLocation = locations.last!
         print("didUpdateLocations \(newLocation)")
-        startLocation = newLocation
+        lastLocation = newLocation
         print(formatGPSCoordinates())
+    }
+    
+    /* notifies the delegate when the user enters a particular region (defined in startRegionMonitoring()) */
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        print("entered region")
+    }
+    
+    /* notifies the delegate when the user exits a particular region (defined in startRegionMonitoring()) */
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        print("exited region")
+    }
+    
+    /* tells the delegate that a region error has occurred */
+    func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
+        print("region error")
     }
 }
 
